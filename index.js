@@ -5,11 +5,8 @@ server.use(express.json());
 
 const projects = [
     {
-
         "id": "1",
-
         "title": "Calculadora"
-
     }
 ];
 
@@ -19,7 +16,7 @@ server.get('/projects', (req, res) => {
 
 server.get('/projects/:projectId', (req, res) => {
     const { projectId } = req.params;
-    const project = projects.find(p => pj.id == projectId)
+    const project = projects.find(p => p.id == projectId)
 
     return res.json(project);
 })
@@ -45,12 +42,23 @@ server.post('/projects/:projectId/tasks', (req, res) => {
 })
 
 server.put('/projects/:projectId', (req, res) => {
-    const { id, title } = req.body;
-    const project = {id, title, tasks:[]};
+    const { title } = req.body;
+    const { projectId } = req.params;
 
-    projects.push(project);
+    const project = projects.find(p => p.id == projectId);
 
-    return res.json(projects);
+    project.title = title;
+
+    return res.json(project);
+})
+
+server.delete('/projects/:projectId', (req, res) => {
+    const { projectId } = req.params;
+    const project = projects.find(p => p.id == projectId);
+
+    projects.splice(project, 1);
+
+    return res.json();
 })
 
 server.listen(3333);
