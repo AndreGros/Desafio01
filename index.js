@@ -3,23 +3,15 @@ const server = express();
 
 server.use(express.json());
 
-const projects = [
-    {
-        "id": "1",
-        "title": "Calculadora"
-    }
-];
+const projects = [];
 
 /**
  * Middleware global
  */
 server.use((req, res, next) => {
-    console.time('Request');
-    console.log(`Metodo chamado: ${req.method}`);
+    console.count(`Request Type: ${req.method}`);
 
     next();
-
-    console.timeEnd('Request');
 });
 
 /**
@@ -66,22 +58,16 @@ server.post('/projects/:projectId/tasks', (req, res) => {
     return res.json(project);
 })
 
-server.put('/projects/:projectId', (req, res) => {
+server.put('/projects/:projectId', checkProjectExists, (req, res) => {
     const { title } = req.body;
-    const { projectId } = req.params;
 
-    const project = projects.find(p => p.id == projectId);
+    req.project.title = title;
 
-    project.title = title;
-
-    return res.json(project);
+    return res.json(req.project);
 })
 
-server.delete('/projects/:projectId', (req, res) => {
-    const { projectId } = req.params;
-    const project = projects.find(p => p.id == projectId);
-
-    projects.splice(project, 1);
+server.delete('/projects/:projectId', checkProjectExists, (req, res) => {
+    projects.splice(req.project, 1);
 
     return res.json();
 })

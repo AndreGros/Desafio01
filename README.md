@@ -30,4 +30,4 @@ Criar uma aplicação para armazenar projetos e tarefas utilizando [Express](htt
  ## Ferramentas utilizadas no desafio
  
  - Visual studio code
- - Insomnia
+ - Insomnia ou Postman
