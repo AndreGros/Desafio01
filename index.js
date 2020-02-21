@@ -22,7 +22,7 @@ function checkProjectExists(req, res, next) {
     const project = projects.find(p => p.id == projectId);
 
     if (!project) {
-        return res.status(404).json({ error: 'Project not found' });
+        return res.status(404).json({ projectId: { message:'Project not found' } });
     }
 
     req.project = project;
@@ -44,18 +44,15 @@ server.post('/projects', (req, res) => {
 
     projects.push(project);
 
-    return res.json(projects);
+    return res.status(201).json({ id: project.id });
 })
 
-server.post('/projects/:projectId/tasks', (req, res) => {
+server.post('/projects/:projectId/tasks', checkProjectExists, (req, res) => {
     const { title } = req.body;
-    const { projectId } = req.params;
 
-    const project = projects.find(p => p.id == projectId);
+    req.project.tasks.push(title);
 
-    project.tasks.push(title);
-
-    return res.json(project);
+    return res.json(req.project);
 })
 
 server.put('/projects/:projectId', checkProjectExists, (req, res) => {
