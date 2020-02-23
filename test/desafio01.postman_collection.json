@@ -1,0 +1,422 @@
+{
+	"info": {
+		"_postman_id": "021072f9-16e8-4e82-a137-56f5a8cb73cc",
+		"name": "desafio01",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1 - Create an project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9fcc95a3-4e74-4fcb-bd8e-21fd4fe8362d",
+						"exec": [
+							"const responseStatus = 201;",
+							"",
+							"pm.test(\"Status code is \" + responseStatus, () => {",
+							"    pm.response.to.have.status(responseStatus);",
+							"});",
+							"",
+							"const requestBody = JSON.parse(pm.request.body.raw);",
+							"pm.globals.set(\"PROJECT_ID\", requestBody.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": \"{{$guid}}\",\n\t\"title\": \"Projeto - {{$randomInt}}\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/projects",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"projects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2 - Get an project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "51cd1ebd-c306-46fc-a574-8938ede2223d",
+						"exec": [
+							"const responseStatus = 200;",
+							"",
+							"pm.test(\"Status code is \" + responseStatus, () => {",
+							"    pm.response.to.have.status(responseStatus);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/projects/{{PROJECT_ID}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"projects",
+						"{{PROJECT_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3 - Try to search for a non-existent project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "09ce2802-18d9-4211-a6e3-7b6144654ce3",
+						"exec": [
+							"const responseStatus = 404;",
+							"",
+							"pm.test(\"Status code is \" + responseStatus, () => {",
+							"    pm.response.to.have.status(responseStatus);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/projects/{{$randomInt}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"projects",
+						"{{$randomInt}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4 - Add one taks in project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bfcd7b2d-936e-4518-b064-c0db9d01e99e",
+						"exec": [
+							"const responseStatus = 200;",
+							"",
+							"pm.test(\"Status code is \" + responseStatus, () => {",
+							"    pm.response.to.have.status(responseStatus);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Tarefa - {{$randomInt}}\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/projects/{{PROJECT_ID}}/tasks",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"projects",
+						"{{PROJECT_ID}}",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5 - Try to add a task to a non-existent project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2c7f1765-de78-4478-a5b3-076bb020d7f5",
+						"exec": [
+							"const responseStatus = 404;",
+							"",
+							"pm.test(\"Status code is \" + responseStatus, () => {",
+							"    pm.response.to.have.status(responseStatus);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Tarefa - {{$randomInt}}\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/projects/{{$randomInt}}/tasks",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"projects",
+						"{{$randomInt}}",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6 - Get all projects",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c22bb554-a6cc-4a72-9ecb-c51d48b33aa1",
+						"exec": [
+							"const responseStatus = 200;",
+							"",
+							"pm.test(\"Status code is \" + responseStatus, () => {",
+							"    pm.response.to.have.status(responseStatus);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/projects",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"projects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7 - Edit an project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9fcc95a3-4e74-4fcb-bd8e-21fd4fe8362d",
+						"exec": [
+							"const responseStatus = 200;",
+							"",
+							"pm.test(\"Status code is \" + responseStatus, () => {",
+							"    pm.response.to.have.status(responseStatus);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": \"{{PROJECT_ID}}\",\n\t\"title\": \"Projeto (Editado) - {{$randomInt}}\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/projects/{{PROJECT_ID}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"projects",
+						"{{PROJECT_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "8 - Try to edit a non-existent project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9fcc95a3-4e74-4fcb-bd8e-21fd4fe8362d",
+						"exec": [
+							"const responseStatus = 404;",
+							"",
+							"pm.test(\"Status code is \" + responseStatus, () => {",
+							"    pm.response.to.have.status(responseStatus);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": \"{{PROJECT_ID}}\",\n\t\"title\": \"Projeto (Editado) - {{$randomInt}}\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/projects/{{$randomInt}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"projects",
+						"{{$randomInt}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "9 - Delete an project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9fcc95a3-4e74-4fcb-bd8e-21fd4fe8362d",
+						"exec": [
+							"const responseStatus = 200;",
+							"",
+							"pm.test(\"Status code is \" + responseStatus, () => {",
+							"    pm.response.to.have.status(responseStatus);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/projects/{{PROJECT_ID}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"projects",
+						"{{PROJECT_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "10 - Try to delete a non-existent project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9fcc95a3-4e74-4fcb-bd8e-21fd4fe8362d",
+						"exec": [
+							"const responseStatus = 404;",
+							"",
+							"pm.test(\"Status code is \" + responseStatus, () => {",
+							"    pm.response.to.have.status(responseStatus);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/projects/{{$randomInt}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"projects",
+						"{{$randomInt}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

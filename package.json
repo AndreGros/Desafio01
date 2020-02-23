@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "test": "newman run ./test/desafio01.postman_collection.json -e ./test/BOOTCAMP10.postman_environment.json"
   },
   "dependencies": {
     "express": "^4.17.1",

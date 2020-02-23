@@ -6,7 +6,9 @@ server.use(express.json());
 const projects = [];
 
 /**
- * Middleware global
+ * req.method
+ * Middleware global que retorna quantas vezes a requisição foi chamanda,
+ * separando por tipo;
  */
 server.use((req, res, next) => {
     console.count(`Request Type: ${req.method}`);
@@ -15,7 +17,9 @@ server.use((req, res, next) => {
 });
 
 /**
- * Middleware local
+ * req.params
+ * Middleware local que verifica se o id do projeto existe. E chamado em todos
+ * os metodos que recebe o id como parametro;
  */
 function checkProjectExists(req, res, next) {
     const { projectId } = req.params;
@@ -64,7 +68,9 @@ server.put('/projects/:projectId', checkProjectExists, (req, res) => {
 })
 
 server.delete('/projects/:projectId', checkProjectExists, (req, res) => {
-    projects.splice(req.project, 1);
+    let index = projects.indexOf(req.project);
+    
+    projects.splice(index, 1);
 
     return res.json();
 })
